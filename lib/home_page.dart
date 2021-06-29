@@ -11,8 +11,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // List<Aeroporto> aeroporto = [];
-  // List<Aeroporto> aero = [];
   List<Aeroporto> listaAeroporto = [];
 
   Future<List<Aeroporto>> buscaAllDados() async {
@@ -23,13 +21,10 @@ class _HomePageState extends State<HomePage> {
     print(listaAeroporto);
     return listaAeroporto;
   }
-  // @override
-  // _HomePageState() {
-  //   buscaDados();
-  // }
 
   @override
   Widget build(BuildContext context) {
+    List<Voo> list = [];
     // buscaDados();
     return Scaffold(
       appBar: AppBar(title: Text('Lista de Aeroportos Brasileiro')),
@@ -50,17 +45,22 @@ class _HomePageState extends State<HomePage> {
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        title: Text(snapshot.data![index].nome),
-                        subtitle: Text(snapshot.data![index].pais),
+                        title: Text(snapshot.data![index].nome.toString()),
+                        subtitle: Text(snapshot.data![index].cidade.toString() +
+                            '/' +
+                            snapshot.data![index].estado.toString() +
+                            '-' +
+                            snapshot.data![index].pais.toString()),
                         onTap: () {
-                          print('Aeroportos $index selecionada');
+                          print('Aeroporto $index selecionada');
                           //dar pushNemed para próxima tela
-
+                          list = snapshot.data![index].voo!.toList();
+                          print(list.toString());
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => VoosPage(
-                                        aeroporto: snapshot.data![index],
+                                        voos: list,
                                       )));
                         },
                       );
